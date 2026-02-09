@@ -113,4 +113,8 @@ QIIME2 Amplicon Analysis: [Complete Documentation](https://amplicon-docs.qiime2.
 
 [Frontiers in Microbiology: Case study](https://doi.org/10.3389/fmicb.2017.00725)
 
+<<<<<<< HEAD
 Parasites & Trends: Optional review
+=======
+Parasites & Trends: Optional review
+>>>>>>> fb5868c (Updates to folder structure of repository)
