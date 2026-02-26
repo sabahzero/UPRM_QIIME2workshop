@@ -1,0 +1,128 @@
+##Load qiime2
+
+module load qiime2/2025.7
+
+##Import reduced dataset
+
+qiime tools import \
+--type 'SampleData[SequencesWithQuality]' \
+--input-path fq-manifest_42samp_reduced.txt \
+--output-path reduced_42samp_tagplate1_demux_seqs.qza \
+--input-format SingleEndFastqManifestPhred33V2
+
+##Summarize and visualize reduced dataset, check quality scores to inform DADA2 trunc-len
+
+qiime demux summarize \
+--i-data reduced_42samp_tagplate1_demux_seqs.qza \
+--o-visualization reduced_42samp_tagplate1_demux_seqs.qzv
+
+##Download .qzv file, then view in qiime2 View: https://view.qiime2.org/
+
+#############################################################
+##Quality control and feature (ASV) table construction
+
+qiime dada2 denoise-single \
+--i-demultiplexed-seqs reduced_42samp_tagplate1_demux_seqs.qza \
+--p-trim-left 0 \
+--p-trunc-len 240 \
+--o-representative-sequences reduced_42samp_tagplate1_asv-seqs.qza \
+--o-table reduced_42samp_tagplate1_asv-table.qza \
+--o-denoising-stats reduced_42samp_tagplate1_denoising-stats.qza
+
+##Assign taxonomy to sequences using SILVA 138.2 reference database
+
+qiime feature-classifier classify-sklearn \
+> --i-classifier SILVA138.2_SSURef_NR99_uniform_classifier_V4-515f-806r.qza \
+> --i-reads reduced_42samp_tagplate1_asv-seqs.qza \
+> --o-classification reduced_42samp_tagplate1_taxonomy.qza
+
+##Align sequences and create tree (unrooted and rooted)
+
+qiime phylogeny align-to-tree-mafft-fasttree \
+> --i-sequences reduced_42samp_tagplate1_asv-seqs.qza \
+> --o-alignment aligned_42samp_asv-seqs.qza \
+> --o-masked-alignment masked-aligned_42samp_asv-seqs.qza \
+> --o-tree unrooted-tree_42samp.qza \
+> --o-rooted-tree rooted-tree_42samp.qza
+
+##Visualize ASV table output with new metadata
+
+qiime feature-table summarize \
+> --i-table reduced_42samp_tagplate1_asv-table.qza \
+> --m-sample-metadata-file 2026_02_26_ConeSnail_Workshop_Reduced_Metadata.txt \
+> --o-visualization reduced_42samp_tagplate1_asv-table.qzv
+
+##Look at ASV table qzv file to decide on a rarefaction depth
+
+##Gap in sample with lowest number of observations (n = 872) and the sample with the second lowest (n = 4,440), can exclude the sample with the lowest number of observations and keep the rest by evenly sampling at a rarefaction depth of 4,440
+
+#############################################################
+##Run diversity analyses and rarefy the dataset
+
+qiime diversity core-metrics-phylogenetic \
+--i-phylogeny rooted-tree_42samp.qza \
+--i-table reduced_42samp_tagplate1_asv-table.qza \
+--p-sampling-depth 4440 \
+--m-metadata-file 2026_02_26_ConeSnail_Workshop_Reduced_Metadata.txt \
+--output-dir diversity-core-metrics-phylogenetic
+
+##Group significance
+
+##Alpha group significance: Shannon's Diversity
+qiime diversity alpha-group-significance \
+> --i-alpha-diversity diversity-core-metrics-phylogenetic/shannon_vector.qza \
+> --m-metadata-file 2026_02_26_ConeSnail_Workshop_Reduced_Metadata.txt \
+> --o-visualization shannon_group_significance.qzv
+
+##Beta group significance (Sample_Type Comparison): Unweighted- and Weighted-Unifrac
+
+qiime diversity beta-group-significance \
+> --i-distance-matrix diversity-core-metrics-phylogenetic/unweighted_unifrac_distance_matrix.qza \
+> --m-metadata-file 2026_02_26_ConeSnail_Workshop_Reduced_Metadata.txt \
+> --m-metadata-column Sample_Type \
+> --p-pairwise \
+> --o-visualization unweighted_sample_type_group_sig.qzv
+
+qiime diversity beta-group-significance \
+> --i-distance-matrix diversity-core-metrics-phylogenetic/weighted_unifrac_distance_matrix.qza \
+> --m-metadata-file 2026_02_26_ConeSnail_Workshop_Reduced_Metadata.txt \
+> --m-metadata-column Sample_Type \
+> --p-pairwise \
+> --o-visualization weighted_sample_type_group_sig.qzv
+
+qiime diversity beta-group-significance \
+--i-distance-matrix diversity-core-metrics-phylogenetic/weighted_unifrac_distance_matrix.qza \
+--m-metadata-file 2026_02_26_ConeSnail_Workshop_Reduced_Metadata.txt \
+--m-metadata-column Sample_Type \
+--p-pairwise \
+--o-visualization weighted_sample_type_group_sig.qzv
+
+#############################################################
+##Taxa barplot for rarefied dataset
+
+qiime taxa barplot \
+> --i-table diversity-core-metrics-phylogenetic/rarefied_table.qza \
+> --i-taxonomy reduced_42samp_tagplate1_taxonomy.qza \
+> --m-metadata-file 2026_02_26_ConeSnail_Workshop_Reduced_Metadata.txt \
+> --o-visualization taxa_barplot_rarefied.qzv
+
+Done with qiime2 portion!
+
+#############################################################
+##Helpful code for future reference, NOT to be run during the workshop
+##Reduce a dataset within qiime
+
+##Filter asv table to reduce the dataset
+
+qiime feature-table filter-samples \
+--i-table tagplate1_asv-table.qza \
+--m-metadata-file 2026_02_25_ConeSnail_Workshop_Reduced_Metadata.txt \ #I used a previous version of the metadata here
+--o-filtered-table reduced_42samp_tagplate1_asv-table.qza
+
+##Filter sequences using the reduced asv table
+
+qiime feature-table filter-seqs \
+--i-data tagplate1_asv-seqs.qza \
+--i-table reduced_42samp_tagplate1_asv-table.qza \
+--o-filtered-data reduced_42samp_tagplate1_asv-seqs.qza
+#############################################################
