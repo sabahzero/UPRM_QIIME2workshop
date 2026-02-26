@@ -24,9 +24,9 @@ This workshop will utilize data from the C. californicus venom microbiome study.
     Cone snail literature gaps regarding ecological considerations
 
 ### Instructors
-Sabah Ul-Hasan (Virtual) @sabahzero <br/>
-Sierra Smith (In-Person) @sierra-smith <br/>
-Tim Colston (In-Person) @ <br/>
+Sabah Ul-Hasan (Virtual) [@sabahzero](https://github.com/sabahzero) <br/>
+Sierra Smith (In-Person) [@sierra-smith](https://github.com/sierra-smith) <br/>
+Tim Colston (In-Person) [@tcolston](https://github.com/tcolston) <br/>
 
 ### Key Dates
 - Pre-requisites [Feb 28]: (a) Installation of required software, (b) processing of Raw Reads
