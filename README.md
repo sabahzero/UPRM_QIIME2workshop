@@ -29,9 +29,9 @@ Sierra Smith (In-Person) [@sierra-smith](https://github.com/sierra-smith) <br/>
 Tim Colston (In-Person) [@tcolston](https://github.com/tcolston) <br/>
 
 ### Key Dates
-- Pre-requisites [Feb 28]: (a) Installation of required software, (b) processing of Raw Reads
-- Session 1 [Mar 3]: 12-3 PM
-- Session 2 [Mar 4]: 1-3 PM AST
+- Pre-requisites [Feb 28]: (a) Installation of required software, (b) Github account, (c) data downloaded
+- Session 1 [Mar 3]: 12-3 PM AST
+- Session 2 [Mar 4]: 1-3 PM 
 - Additional Office Hours: 3-6 PM, both days Mar 3 & 4
 
 ### Prerequisites
@@ -55,21 +55,23 @@ Software Installation (Mandatory): Participants must install the following on th
 
         phyloseq
 
-    Github account
+    [Github account](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github)
 
 Additionally, a small test dataset will be provided for download prior to the workshop.
 
 ## Workshop Structure
-### Session 1: "From Raw Data to Community Table"
+### Session 1: "From Pre-processed Data to Community Table"
 March 3, 12-3 PM AST
 
-    Lecture 1 (25 min): Introduction, Experimental Design, Marker Gene Choice (16S/18S), QIIME2 Overview
+    Lecture 1 (20 min): Introduction, Experimental Design, Marker Gene Choice (16S/18S), QIIME2 Overview
 
-    Hands-on 1 (1 hr 30 min) : Demultiplexing, Import, DADA2/Denoising in QIIME2
+    Hands-on 1 (1 hr): Q&A, final troubleshooting items, QIIME2 run
+
+    Break (10 min)
 
     Lecture 2 (25 min): Taxonomy, Alignment, Phylogeny, and Generating Core Metrics (Alpha/Beta Diversity)
 
-    Hands-on 2 (25 min): Running core diversity, viewing quick Emperor plots
+    Hands-on 2 (1 hr 35 min): Running core diversity, viewing quick Emperor plots
 
     Office Hours: 3-6 PM for troubleshooting and additional work
 
@@ -99,6 +101,8 @@ QIIME2 Data Import: [How to Import Data](https://amplicon-docs.qiime2.org/en/sta
 
 QIIME2 Amplicon Analysis: [Complete Documentation](https://amplicon-docs.qiime2.org/en/stable/)
 
+[Classification and Regression Tree Analysis (CART)](https://cran.r-project.org/web/packages/party/index.html#:~:text=CRAN:%20Package%20party,2105%2D8%2)
+
 ### R Analysis Packages
 
     Classification and Regression Tree Analysis: party package
@@ -113,4 +117,4 @@ QIIME2 Amplicon Analysis: [Complete Documentation](https://amplicon-docs.qiime2.
 
 [Frontiers in Microbiology: Case study](https://doi.org/10.3389/fmicb.2017.00725)
 
-Parasites & Trends: Optional review
+[Ch III, pp 69 - 90](https://escholarship.org/content/qt7rn287kn/qt7rn287kn.pdf?v=lg) "The venom microbiome of marine neogastropod Californiconus californicus is distinct from the surrounding environment and is compartment-specific"
