@@ -57,7 +57,7 @@ Software Installation (Mandatory): Participants must install the following on th
 
     [Github account](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github)
 
-Additionally, a small test dataset will be provided for download prior to the workshop.
+The following small test dataset can be utilized for practice: https://amplicon-docs.qiime2.org/en/stable/tutorials/gut-to-soil.html#bfScHXAB1f
 
 ## Workshop Structure
 ### Session 1: "From Pre-processed Data to Community Table"
