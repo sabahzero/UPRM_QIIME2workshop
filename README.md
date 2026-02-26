@@ -1,7 +1,7 @@
 # UPR Mayaguez QIIME2 Workshop
 
 ## Workshop Overview
-This repository operates as a syllabus for the UPRM [QIIME 2](https://github.com/qiime2) Workshop. We utilize this tooklit to process 16S & 18S reads from raw data through hypothesis testing and visualization, with aims as follows: 
+This repository operates as a syllabus for the UPRM [QIIME 2](https://github.com/qiime2) Workshop. We will utilize this tooklit to work with pre-processed 16S & 18S reads from the original raw data through hypothesis testing and visualization, with aims as follows: 
 
     Quality control and denoising
 
