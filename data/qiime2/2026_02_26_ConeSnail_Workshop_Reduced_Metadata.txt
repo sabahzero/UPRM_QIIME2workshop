@@ -1,0 +1,43 @@
+SampleID	Sample_Name	File_Name	Sample_Type	Year	Site	Primer
+SUH282	16S_SD_Sum_17_WT_Bulb_1	16S_12608.1.270220.TGACAGCTGCA_trimmed.fq.gz	Bulb of venom	2017	SD	16S
+SUH283	16S_SD_Sum_17_WT_Bulb_2	16S_12608.1.270220.ATCATGTCAGT_trimmed.fq.gz	Bulb of venom	2017	SD	16S
+SUH284	16S_SD_Sum_17_WT_Bulb_3	16S_12608.1.270220.GACTAGTGCTG_trimmed.fq.gz	Bulb of venom	2017	SD	16S
+SUH285	16S_SD_Sum_17_WT_Bulb_4	16S_12608.1.270220.GATATGACGCG_trimmed.fq.gz	Bulb of venom	2017	SD	16S
+SUH286	16S_SD_Sum_17_WT_Bulb_5	16S_12608.1.270220.CGAGACTAGAG_trimmed.fq.gz	Bulb of venom	2017	SD	16S
+SUH287	16S_SD_Sum_17_WT_Distal_Duct_1	16S_12608.1.270220.TGACACTGCTG_trimmed.fq.gz	Distal duct	2017	SD	16S
+SUH288	16S_SD_Sum_17_WT_Distal_Duct_2	16S_12608.1.270220.CTAGCTCAGCG_trimmed.fq.gz	Distal duct	2017	SD	16S
+SUH289	16S_SD_Sum_17_WT_Distal_Duct_3	16S_12608.1.270220.GCATATCAGAG_trimmed.fq.gz	Distal duct	2017	SD	16S
+SUH290	16S_SD_Sum_17_WT_Distal_Duct_4	16S_12608.1.270220.ACTCGTCATGC_trimmed.fq.gz	Distal duct	2017	SD	16S
+SUH291	16S_SD_Sum_17_WT_Distal_Duct_5	16S_12608.1.270220.GATGCAGTCAC_trimmed.fq.gz	Distal duct	2017	SD	16S
+SUH292	16S_SD_Sum_17_WT_Gland_1	16S_12608.1.270220.TATCGCACTAG_trimmed.fq.gz	"Whole venom gland (proximal, distal, bulb)"	2017	SD	16S
+SUH293	16S_SD_Sum_17_WT_Gland_2	16S_12608.1.270220.CGATATCGATC_trimmed.fq.gz	"Whole venom gland (proximal, distal, bulb)"	2017	SD	16S
+SUH294	16S_SD_Sum_17_WT_Gland_3	16S_12608.1.270220.CAGATGCGAGC_trimmed.fq.gz	"Whole venom gland (proximal, distal, bulb)"	2017	SD	16S
+SUH295	16S_SD_Sum_17_WT_Gland_4	16S_12608.1.270220.GCTCTAGAGTA_trimmed.fq.gz	"Whole venom gland (proximal, distal, bulb)"	2017	SD	16S
+SUH296	16S_SD_Sum_17_WT_Gland_5	16S_12608.1.270220.AGCGATGCTCA_trimmed.fq.gz	"Whole venom gland (proximal, distal, bulb)"	2017	SD	16S
+SUH297	16S_SD_Sum_17_WT_Proximal_Duct_1	16S_12608.1.270220.TCTAGCGATGC_trimmed.fq.gz	Proximal duct	2017	SD	16S
+SUH298	16S_SD_Sum_17_WT_Proximal_Duct_2	16S_12608.1.270220.ATCAGTGTCAC_trimmed.fq.gz	Proximal duct	2017	SD	16S
+SUH299	16S_SD_Sum_17_WT_Proximal_Duct_3	16S_12608.1.270220.ACGTCGACTGA_trimmed.fq.gz	Proximal duct	2017	SD	16S
+SUH300	16S_SD_Sum_17_WT_Proximal_Duct_4	16S_12608.1.270220.ACGTGTGAGCA_trimmed.fq.gz	Proximal duct	2017	SD	16S
+SUH301	16S_SD_Sum_17_WT_Proximal_Duct_5	16S_12608.1.270220.ATCTCAGCAGT_trimmed.fq.gz	Proximal duct	2017	SD	16S
+Control_16S	16S_EB_Buffer_Control_1	16S_12608.1.270220.ACTGATACATG_trimmed.fq.gz	Control_1	Control	Control	16S
+SUH190	18S_SD_Sum_17_WT_Bulb_1	18S_12641.1.273032.GCCTTAAGCGA_trimmed.fq.gz	Bulb of venom	2017	SD	18S
+SUH191	18S_SD_Sum_17_WT_Bulb_2	18S_12641.1.273032.GACTTATAGGC_trimmed.fq.gz	Bulb of venom	2017	SD	18S
+SUH192	18S_SD_Sum_17_WT_Bulb_3	18S_12641.1.273032.TTAACGGCTGA_trimmed.fq.gz	Bulb of venom	2017	SD	18S
+SUH193	18S_SD_Sum_17_WT_Bulb_4	18S_12641.1.273032.TAGGCCGACTT_trimmed.fq.gz	Bulb of venom	2017	SD	18S
+SUH194	18S_SD_Sum_17_WT_Bulb_5	18S_12641.1.273032.TGGCACCGATT_trimmed.fq.gz	Bulb of venom	2017	SD	18S
+SUH195	18S_SD_Sum_17_WT_Distal_Duct_1	18S_12641.1.273032.ACGCTATCTGG_trimmed.fq.gz	Distal duct	2017	SD	18S
+SUH196	18S_SD_Sum_17_WT_Distal_Duct_2	18S_12641.1.273032.CTTCTAAGGAG_trimmed.fq.gz	Distal duct	2017	SD	18S
+SUH197	18S_SD_Sum_17_WT_Distal_Duct_3	18S_12641.1.273032.ATTCATGGACG_trimmed.fq.gz	Distal duct	2017	SD	18S
+SUH198	18S_SD_Sum_17_WT_Distal_Duct_4	18S_12641.1.273032.TCTGGAACGCT_trimmed.fq.gz	Distal duct	2017	SD	18S
+SUH199	18S_SD_Sum_17_WT_Distal_Duct_5	18S_12641.1.273032.GCCGCTTAATA_trimmed.fq.gz	Distal duct	2017	SD	18S
+SUH200	18S_SD_Sum_17_WT_Gland_1	18S_12641.1.273032.TTGTCGCACAA_trimmed.fq.gz	"Whole venom gland (proximal, distal, bulb)"	2017	SD	18S
+SUH201	18S_SD_Sum_17_WT_Gland_2	18S_12641.1.273032.AACTGTGCGTA_trimmed.fq.gz	"Whole venom gland (proximal, distal, bulb)"	2017	SD	18S
+SUH202	18S_SD_Sum_17_WT_Gland_3	18S_12641.1.273032.TGCGAACGTAT_trimmed.fq.gz	"Whole venom gland (proximal, distal, bulb)"	2017	SD	18S
+SUH203	18S_SD_Sum_17_WT_Gland_4	18S_12641.1.273032.CATCAGCGTGT_trimmed.fq.gz	"Whole venom gland (proximal, distal, bulb)"	2017	SD	18S
+SUH204	18S_SD_Sum_17_WT_Gland_5	18S_12641.1.273032.TTCAACAGGTG_trimmed.fq.gz	"Whole venom gland (proximal, distal, bulb)"	2017	SD	18S
+SUH205	18S_SD_Sum_17_WT_Proximal_Duct_1	18S_12641.1.273032.TACCGCTAGTA_trimmed.fq.gz	Proximal duct	2017	SD	18S
+SUH206	18S_SD_Sum_17_WT_Proximal_Duct_2	18S_12641.1.273032.TGGCTCTACAG_trimmed.fq.gz	Proximal duct	2017	SD	18S
+SUH207	18S_SD_Sum_17_WT_Proximal_Duct_3	18S_12641.1.273032.ATGGCAGCTCT_trimmed.fq.gz	Proximal duct	2017	SD	18S
+SUH208	18S_SD_Sum_17_WT_Proximal_Duct_4	18S_12641.1.273032.GATACGTCCTG_trimmed.fq.gz	Proximal duct	2017	SD	18S
+SUH209	18S_SD_Sum_17_WT_Proximal_Duct_5	18S_12641.1.273032.CATGAGTGCTA_trimmed.fq.gz	Proximal duct	2017	SD	18S
+Control_18S	18S_EB_Buffer_Control_1	18S_12641.1.273032.TAAGGCCTATC_trimmed.fq.gz	Control_1	Control	Control	18S
