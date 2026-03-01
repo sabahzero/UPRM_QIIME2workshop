@@ -120,10 +120,40 @@ March 4, 1-3 PM AST
 * Adapter Trimming: [TrimGalore User Guide](https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md#step-2-adapter-trimming)
 * QIIME2 Data Import: [How to Import Data](https://amplicon-docs.qiime2.org/en/stable/how-to-guides/how-to-import.html)
 * QIIME2 Amplicon Analysis: [Complete Documentation](https://amplicon-docs.qiime2.org/en/stable/)
-* Classification and Regression Tree Analysis[CART](https://cran.r-project.org/web/packages/party/index.html#:~:text=CRAN:%20Package%20party,2105%2D8%2)
+* Classification and Regression Tree Analysis ([CART](https://cran.r-project.org/web/packages/party/index.html#:~:text=CRAN:%20Package%20party,2105%2D8%2))
 
-### Installions
+### Installations
 
 #### QIIME 2
+* [Quickstart](https://library.qiime2.org/quickstart/amplicon)
+* Getting Started [Guide](https://amplicon-docs.qiime2.org/en/stable/explanations/getting-started.html)
+* Create a MacOS Virtual Machine (VM) on your PC: https://developer.apple.com/documentation/virtualization/installing-macos-on-a-virtual-machine
+* Miniconda install (command line):
+
+Windows/PC
+
+````
+curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -o .\miniconda.exe
+start /wait "" .\miniconda.exe /S
+del .\miniconda.exe
+````
+
+Mac (Apple Silicon)
+````
+mkdir -p ~/miniconda3
+curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o ~/miniconda3/miniconda.sh
+bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+rm ~/miniconda3/miniconda.sh
+````
+
+Mac (Intel chip)
+````
+mkdir -p ~/miniconda3
+curl https://repo.anaconda.com/miniconda/Miniconda3-py310_25.5.1-0-MacOSX-x86_64.sh -o ~/miniconda3/miniconda.sh
+bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+rm ~/miniconda3/miniconda.sh
+````
+
+Full Miniconda installation guide: https://www.anaconda.com/docs/getting-started/miniconda/install
 
 #### R packages
