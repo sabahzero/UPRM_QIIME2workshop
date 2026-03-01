@@ -62,27 +62,30 @@ The following small test dataset can be utilized for practice: https://amplicon-
 
 (b) Create a [Github account](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github)
 
-(c) Utilize your newly created Github account and intalled software to download the data from this repository
+(c) Utilize your newly created Github account and intalled software to download the data from this repository. This instruction is intentionally ambiguous as a first task in navigating your newly attained skillset 🎉
 
-(d) Complete reads of the literature [reference](#foundational-papers) or the [identical folder here](https://github.com/sabahzero/UPRM_QIIME2workshop/tree/main/papers) with minimally reading Ch III but ideally all 3 papers
+(d) Complete literature readings [referenced here](#foundational-papers) ([identical folder here](https://github.com/sabahzero/UPRM_QIIME2workshop/tree/main/papers) for easy download), minimally reading Ch III but ideally all 3 papers
 
 ## Workshop Structure
-### Session 1: "From Pre-processed Data to Community Table"
+### Session 1: From Pre-processed Data to Community Table
 March 3, 12-3 PM AST
 
-    Lecture 1 (20 min): Introduction, Experimental Design, Marker Gene Choice (16S/18S), QIIME2 Overview
+    Lecture 1 (35 min): Introduction & Experimental Design of Data (Sabah) + Introduction & Pre-processing of data through denoising
 
-    Hands-on 1 (1 hr): Q&A, final troubleshooting items, QIIME2 run
+    Hands-on 1 (2 hrs): Q&A, final troubleshooting items, QIIME2, DADA2
+    
+        Built-in break: DADA2 run, Downloading SILVA database
+        
+    Lecture 2 (25 min): Taxonomy, Alignment, and Phylogeny
 
-    Break (10 min)
+    3-6 PM Office Hours: This is an optional period to continue working through analyses
+        
+        Expectations upon arrival to Session 2 are that 
+        
+            (a) core diversity metrics have been generated and
+            (b) Emperor plots are viewable
 
-    Lecture 2 (25 min): Taxonomy, Alignment, Phylogeny, and Generating Core Metrics (Alpha/Beta Diversity)
-
-    Hands-on 2 (1 hr 35 min): Running core diversity, viewing quick Emperor plots
-
-    Office Hours: 3-6 PM for troubleshooting and additional work
-
-### Session 2: "From Community Table to Biological Insight"
+### Session 2: From Community Table to Biological Insight
 March 4, 1-3 PM AST
 
     Hands-on 3 (30 min): Importing QIIME2 artifacts into R using qiime2R
