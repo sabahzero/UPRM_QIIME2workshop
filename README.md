@@ -1,11 +1,12 @@
 # UPR Mayaguez QIIME2 Workshop
 
 ## Table of Contents
-* [Overview](https://github.com/sabahzero/UPRM_QIIME2workshop?tab=readme-ov-file#overview)
+* [Overview](#overview): Aims, layout, and prerequisites
 * [Resources](#resources)
 
 ## Overview
-This repository operates as a syllabus for the 2026 UPRM [QIIME 2](https://github.com/qiime2) Workshop. We will utilize this tooklit to work with pre-processed 16S & 18S reads from the original raw data through hypothesis testing and visualization, with aims as follows: 
+This repository operates as a syllabus for the 2026 UPRM [QIIME 2](https://github.com/qiime2) Workshop. We will utilize this tooklit to work with pre-processed 16S & 18S reads from the original raw data through hypothesis testing and visualization. </br></br>
+Workshop Aims:
 
     Quality control and denoising
 
