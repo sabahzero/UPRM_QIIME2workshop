@@ -18,7 +18,7 @@ This repository operates as a syllabus for the 2026 UPRM [QIIME 2](https://githu
 
 ### Case study application: This workshop will explore and analyze data from the microbial communities of C. californicus, specifically
 
-    Venom gland tissue differences (distal, proximal, bulb) between control and experimental samples
+    Venom gland tissue differences (distal, proximal, bulb) between control and experiment
 
     Host population/location differences
 
@@ -70,18 +70,17 @@ The following small test dataset can be utilized for practice: https://amplicon-
 ### Session 1: From Pre-processed Data to Community Table
 March 3, 12-3 PM AST
 
-    Lecture 1 (35 min): Introduction & Experimental Design of Data (Sabah) + Introduction & Pre-processing of data through denoising
+    Lecture 1 (35 min): 
+        Introduction & Experimental Design of Data (Sabah)
+        Introduction & Pre-processing of data through denoising (Sierra)
 
     Hands-on 1 (2 hrs): Q&A, final troubleshooting items, QIIME2, DADA2
-    
         Built-in break: DADA2 run, Downloading SILVA database
         
     Lecture 2 (25 min): Taxonomy, Alignment, and Phylogeny
 
     3-6 PM Office Hours: This is an optional period to continue working through analyses
-        
         Expectations upon arrival to Session 2 are that 
-        
             (a) core diversity metrics have been generated and
             (b) Emperor plots are viewable
 
