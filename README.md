@@ -5,42 +5,40 @@
 * [Resources](#resources)
 
 ## Overview
-This repository operates as a syllabus for the 2026 UPRM [QIIME 2](https://github.com/qiime2) Workshop. We will utilize this tooklit to work with pre-processed 16S & 18S reads from the original raw data through hypothesis testing and visualization. </br></br>
-Workshop Aims:
+This repository operates as a syllabus for the 2026 UPRM [QIIME 2](https://github.com/qiime2) Workshop. We will utilize this tooklit to work with pre-processed 16S & 18S reads from the original raw data through hypothesis testing and visualization.
+### Workshop Aims
 
-    Quality control and denoising
+    1. Quality control and denoising
 
-    Taxonomic assignment
+    2. Taxonomic assignment
 
-    Alpha and beta diversity analysis
+    3. Alpha and beta diversity analysis
 
-    Statistical testing and figure generation
+    4. Statistical testing and figure generation
 
-This workshop will utilize data from the C. californicus venom microbiome study. Participants will explore:
+### Case study application: This workshop will explore and analyze data from the microbial communities of C. californicus, specifically
 
-    Basic alpha/beta diversity analyses
+    Venom gland tissue differences (distal, proximal, bulb) between control and experimental samples
 
-    Tissue differences (distal, proximal, bulb) between control and experimental samples
-
-    Population/location differences
+    Host population/location differences
 
     Taxa with potential protective or symbiotic functions
 
-    Cone snail literature gaps regarding ecological considerations
+    Strengths and limitations of the data in its experimental design
 
 ### Instructors
-Sabah Ul-Hasan (Virtual) [@sabahzero](https://github.com/sabahzero) <br/>
-Sierra Smith (In-Person) [@sierra-smith](https://github.com/sierra-smith) <br/>
-Tim Colston (In-Person) [@tcolston](https://github.com/tcolston) <br/>
+Analysis Expert: Sierra Smith (Virtual) [@sierra-smith](https://github.com/sierra-smith) <br/>
+Workshop Lead: Sabah Ul-Hasan (Virtual) [@sabahzero](https://github.com/sabahzero) <br/>
+Professor: Tim Colston (In-Person) [@tcolston](https://github.com/tcolston) <br/>
 
 ### Key Dates
-- Pre-requisites [Feb 28]: (a) Installation of required software, (b) Github account, (c) data downloaded
-- Session 1 [Mar 3]: 12-3 PM AST
-- Session 2 [Mar 4]: 1-3 PM 
-- Additional Office Hours: 3-6 PM, both days Mar 3 & 4
+- By Feb 28, complete prerequisites below: (a) Installation of software, (b) Github account, (c) data downloaded, (d) recommended literature read
+- Mar 3, Session 1 and completion of Aims 1-2: 12-3 PM AST
+- Mar 4, Session 2 and completion of Aims 3-4: 1-3 PM AST
+- Mar 3 & 4, Supporting Office Hours: 3-6 PM AST
 
 ### Prerequisites
-Software Installation (Mandatory): Participants must install the following on their local devices prior to the workshop. It is recommended this is done no later than a week prior in case any troubleshooting may be needed with set-up:
+(a) Participants must install the following on their local devices prior to the workshop. It is recommended this is done no later than a week prior in case any troubleshooting may be needed with set-up:
 
     QIIME 2 (via conda)
 
@@ -60,9 +58,13 @@ Software Installation (Mandatory): Participants must install the following on th
 
         phyloseq
 
-    [Github account](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github)
-
 The following small test dataset can be utilized for practice: https://amplicon-docs.qiime2.org/en/stable/tutorials/gut-to-soil.html#bfScHXAB1f
+
+(b) Create a [Github account](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github)
+
+(c) Utilize your newly created Github account and intalled software to download the data from this repository
+
+(d) Complete reads of the literature [reference](#foundational-papers) or the [identical folder here](https://github.com/sabahzero/UPRM_QIIME2workshop/tree/main/papers) with minimally reading Ch III but ideally all 3 papers
 
 ## Workshop Structure
 ### Session 1: "From Pre-processed Data to Community Table"
