@@ -67,7 +67,7 @@ The following small test dataset can be utilized for practice: [Gut-to-Soil Tuto
 
 (c) Utilize your newly created Github account and installed software to download the data from this repository. This instruction is intentionally ambiguous as a first task in navigating your newly attained skillset 🎉 Hint: Look for the green "Code" button at the top of this repo
 
-(d) Complete literature readings [referenced here](#foundational-papers) ([identical folder here](https://github.com/sabahzero/UPRM_QIIME2workshop/tree/main/papers) for easy download), minimally reading Ch III but ideally all 3 papers
+(d) Complete literature readings [referenced here](#foundational-papers) (with [identical folder here](https://github.com/sabahzero/UPRM_QIIME2workshop/tree/main/papers) for easy download), minimally reading Ch III but ideally all 3 papers
 
 ## Structure
 
@@ -80,14 +80,14 @@ The following small test dataset can be utilized for practice: [Gut-to-Soil Tuto
 ### Session 1: From Pre-processed Data to Community Table
 March 3, 12-3 PM AST
 
-    Lecture 1 (35 min): 
+    Lecture 1 (40 min): 
         Introduction & Experimental Design of Data (Sabah)
         Introduction & Pre-processing of data through denoising (Sierra)
 
     Hands-on 1 (2 hrs): Q&A, final troubleshooting items, QIIME2, DADA2
         Built-in break: DADA2 run, Downloading SILVA database
         
-    Lecture 2 (25 min): Taxonomy, Alignment, and Phylogeny
+    Lecture 2 (20 min): Taxonomy, Alignment, and Phylogeny
 
     3-6 PM Office Hours: This is an optional period to continue working through analyses
         Expectations upon arrival to Session 2 are that 
@@ -127,7 +127,7 @@ March 4, 1-3 PM AST
 #### QIIME 2
 * [Quickstart](https://library.qiime2.org/quickstart/amplicon)
 * Getting Started [Guide](https://amplicon-docs.qiime2.org/en/stable/explanations/getting-started.html)
-* Create a MacOS Virtual Machine (VM) on your PC: https://developer.apple.com/documentation/virtualization/installing-macos-on-a-virtual-machine
+* Create [a MacOS Virtual Machine](https://developer.apple.com/documentation/virtualization/installing-macos-on-a-virtual-machine) (VM) on your PC
 * Miniconda install (command line):
 
 Windows/PC
@@ -154,6 +154,20 @@ bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
 rm ~/miniconda3/miniconda.sh
 ````
 
-Full Miniconda installation guide: https://www.anaconda.com/docs/getting-started/miniconda/install
+Full Miniconda [installation guide](https://www.anaconda.com/docs/getting-started/miniconda/install)
 
 #### R packages
+
+phyloseq: not on CRAN, requires BiocManager
+````
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("phyloseq")
+````
+
+qiime2R: not on CRAN, install directly from GitHub
+````
+if (!requireNamespace("devtools", quietly = TRUE))
+  install.packages("devtools")
+devtools::install_github("jbisanz/qiime2R")
+````
