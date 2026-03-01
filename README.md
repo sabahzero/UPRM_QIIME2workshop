@@ -2,7 +2,7 @@
 
 ## Table of Contents
 * [Overview](https://github.com/sabahzero/UPRM_QIIME2workshop?tab=readme-ov-file#overview)
-* [Resources](https://github.com/sabahzero/UPRM_QIIME2workshop?tab=readme-ov-file#resources)
+* [Resources](#resources)
 
 ## Overview
 This repository operates as a syllabus for the 2026 UPRM [QIIME 2](https://github.com/qiime2) Workshop. We will utilize this tooklit to work with pre-processed 16S & 18S reads from the original raw data through hypothesis testing and visualization, with aims as follows: 
