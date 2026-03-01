@@ -2,6 +2,7 @@
 
 ## Table of Contents
 * [Overview](#overview): Aims, layout, and prerequisites
+* [Structure](#structure): Logics, breakdown of Sessions 1 & 2
 * [Resources](#resources)
 
 ## Overview
@@ -66,7 +67,14 @@ The following small test dataset can be utilized for practice: https://amplicon-
 
 (d) Complete literature readings [referenced here](#foundational-papers) ([identical folder here](https://github.com/sabahzero/UPRM_QIIME2workshop/tree/main/papers) for easy download), minimally reading Ch III but ideally all 3 papers
 
-## Workshop Structure
+## Structure
+
+### Logistics
+
+    Location: B348 (reserved by Tim Colston)
+
+    Platforms: Google Hangouts, Google Drive, Git
+
 ### Session 1: From Pre-processed Data to Community Table
 March 3, 12-3 PM AST
 
@@ -87,19 +95,15 @@ March 3, 12-3 PM AST
 ### Session 2: From Community Table to Biological Insight
 March 4, 1-3 PM AST
 
-    Hands-on 3 (30 min): Importing QIIME2 artifacts into R using qiime2R
+    Hands-on 3 (30 min): Q&A, troubleshooting, importing QIIME2 artifacts into R using qiime2R
 
-    Lecture/Demo 3 (45 min): Introduction to downstream analyses in R focused on Alpha/Beta diversity stats, PCoA plotting (ggplot2)
+    Lecture/Demo 3 (30 min): Intro to downstream analyses in R (Sabah)
+        Alpha/Beta diversity stats and PCoA plotting (ggplot2)
 
-    Hands-on 4 (45 min): Creating PCoA and relative abundance plots
+    Hands-on 4 (1 hr): Creating PCoA and relative abundance plots
 
-    Office Hours: 3-6 PM for troubleshooting and additional work
-
-### Logistics
-
-    Location: B348 (reserved by Tim Colston)
-
-    Platforms: Google Hangouts, Google Drive, Git
+    3-6 PM Office Hours: This is an optional period to continue working through analyses
+        Expectations are that Aims 1-4 are completed by end of the course, with room to dive deepr
 
 ## Resources
 ### Software & Tutorials
