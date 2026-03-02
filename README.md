@@ -33,10 +33,10 @@ Workshop Lead: Sabah Ul-Hasan (Virtual) [@sabahzero](https://github.com/sabahzer
 Professor: Tim Colston (In-Person) [@tcolston](https://github.com/tcolston) <br/>
 
 ### Key Dates
-- By Feb 28, complete prerequisites below: (a) Installation of software, (b) GitHub account, (c) data downloaded, (d) recommended literature read
-- Mar 3, Session 1 and completion of Aims 1-2: 12-3 PM AST
-- Mar 4, Session 2 and completion of Aims 3-4: 1-3 PM AST
-- Mar 3 & 4, Supporting Office Hours: 3-6 PM AST
+- By Mar 4, complete prerequisites below: (a) Installation of software, (b) GitHub account, (c) data downloaded, (d) recommended literature read
+- Mar 9, Session 1 and completion of Aims 1-2: 12-3 PM AST
+- Mar 11, Session 2 and completion of Aims 3-4: 1-3 PM AST
+- Mar 9 & 11, Supporting Office Hours: 3-6 PM AST
 
 ### Prerequisites
 (a) Participants must install the following on their local devices prior to the workshop. It is recommended this is done no later than a week prior in case any troubleshooting may be needed with set-up:
@@ -78,7 +78,7 @@ The following small test dataset can be utilized for practice: [Gut-to-Soil Tuto
     Platforms: Google Hangouts, Google Drive, Git
 
 ### Session 1: From Pre-processed Data to Community Table
-March 3, 12-3 PM AST
+March 9, 12-3 PM AST
 
     Lecture 1 (40 min): 
         Introduction & Experimental Design of Data (Sabah)
@@ -95,7 +95,7 @@ March 3, 12-3 PM AST
             (b) Emperor plots are viewable
 
 ### Session 2: From Community Table to Biological Insight
-March 4, 1-3 PM AST
+March 11, 1-3 PM AST
 
     Hands-on 3 (30 min): Q&A, troubleshooting, importing QIIME2 artifacts into R using qiime2R
 
