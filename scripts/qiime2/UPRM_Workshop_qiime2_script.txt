@@ -106,6 +106,32 @@ qiime taxa barplot \
 > --m-metadata-file 2026_02_26_ConeSnail_Workshop_Reduced_Metadata.txt \
 > --o-visualization taxa_barplot_rarefied.qzv
 
+#############################################################
+##Generate relative abundance (or frequency) files to be imported into R
+##Assign taxonomy to rarefied table. Classifying down to class level (i.e., 3)
+
+qiime taxa collapse \
+--i-table diversity-core-metrics-phylogenetic/rarefied_table.qza \
+--i-taxonomy reduced_42samp_tagplate1_taxonomy.qza \
+--p-level 3 \ ##level of taxonomic classification for microbial taxa, e.g., 3 -> class level
+--o-collapsed-table rarefied_42samp_level3_tax.qza
+
+##Calculate relative frequency of the different microbial taxa
+
+qiime feature-table relative-frequency \
+> --i-table rarefied_42samp_level3_tax.qza \
+> --o-relative-frequency-table rarefied_42samp_rel_freq_table.qza
+
+##Export table
+
+qiime tools export \
+> --input-path rarefied_42samp_rel_freq_table.qza \
+> --output-path rarefied_42samp_class_rel_freq
+
+##Convert table from biom to tsv
+
+biom convert -i rarefied_42samp_class_rel_freq/feature-table.biom -o rarefied_42samp_rel_freq_table.tsv --to-tsv
+
 Done with qiime2 portion!
 
 #############################################################
