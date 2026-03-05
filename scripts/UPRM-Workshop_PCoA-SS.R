@@ -36,8 +36,8 @@ merged_data <- merge(pcoa_df, total_metadata, by = "SampleID")
 
 #Modify the color variable to metadata column of interest
 
-#Ecology
-ggplot(merged_data, aes(x = PC1, y = PC2, color = Ecology)) +
+#Unweighted-Unifrac Sample Type PCoA
+ggplot(merged_data, aes(x = PC1, y = PC2, color = Sample_Type)) +
   geom_point(size = 3) +
   stat_ellipse(level = 0.95) +
   theme_minimal() +
@@ -46,8 +46,8 @@ ggplot(merged_data, aes(x = PC1, y = PC2, color = Ecology)) +
        title = "Unweighted PCoA Plot") +
   theme(axis.text = element_text(size = 12), axis.title = element_text(size = 14))
 
-#Island
-ggplot(merged_data, aes(x = PC1, y = PC2, color = Island)) +
+#Unweighted-Unifrac Primer PCoA
+ggplot(merged_data, aes(x = PC1, y = PC2, color = Primer)) +
   geom_point(size = 3) +
   stat_ellipse(level = 0.95) +
   scale_color_brewer(palette = "Dark2") +
@@ -77,8 +77,8 @@ merged_data <- merge(weighted_pcoa_df, total_metadata, by = "SampleID")
 
 #Modify the color variable to metadata column of interest
 
-#Ecology
-ggplot(merged_data, aes(x = PC1, y = PC2, color = Ecology)) +
+#Weighted-Unifrac Sample Type PCoA
+ggplot(merged_data, aes(x = PC1, y = PC2, color = Sample_Type)) +
   geom_point(size = 3) +
   stat_ellipse(level = 0.95) +
   theme_minimal() +
@@ -87,8 +87,8 @@ ggplot(merged_data, aes(x = PC1, y = PC2, color = Ecology)) +
        title = "Weighted PCoA Plot") +
   theme(axis.text = element_text(size = 12), axis.title = element_text(size = 14))
 
-##Island
-ggplot(merged_data, aes(x = PC1, y = PC2, color = Island)) +
+##Weighted-Unifrac Primer PCoA
+ggplot(merged_data, aes(x = PC1, y = PC2, color = Primer)) +
   geom_point(size = 3) +
   stat_ellipse(level = 0.95) +
   scale_color_brewer(palette = "Dark2") +
