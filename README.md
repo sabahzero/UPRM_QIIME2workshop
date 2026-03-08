@@ -51,15 +51,15 @@ Professor: Tim Colston (In-Person) [@tcolston](https://github.com/tcolston) <br/
 
     R packages:
 
-        qiime2R
-
         ggplot2
 
         vegan
         
         party
+        
+        qiime2R (install via devtools -- see below)
 
-        phyloseq (install via BiocManager, not CRAN —- see below)
+        phyloseq (install via devtools -- see below)
 
 The following small test dataset can be utilized for practice: [Gut-to-Soil Tutorial](https://amplicon-docs.qiime2.org/en/stable/tutorials/gut-to-soil.html#bfScHXAB1f)
 
@@ -128,46 +128,24 @@ March 11, 1-3 PM AST
 * [Quickstart](https://library.qiime2.org/quickstart/amplicon)
 * Getting Started [Guide](https://amplicon-docs.qiime2.org/en/stable/explanations/getting-started.html)
 * Create [a MacOS Virtual Machine](https://developer.apple.com/documentation/virtualization/installing-macos-on-a-virtual-machine) (VM) on your PC
-* Miniconda install (command line):
-
-Windows/PC
-
-````
-curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -o .\miniconda.exe
-start /wait "" .\miniconda.exe /S
-del .\miniconda.exe
-````
-
-Mac (Apple Silicon)
-````
-mkdir -p ~/miniconda3
-curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o ~/miniconda3/miniconda.sh
-bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-rm ~/miniconda3/miniconda.sh
-````
-
-Mac (Intel chip)
-````
-mkdir -p ~/miniconda3
-curl https://repo.anaconda.com/miniconda/Miniconda3-py310_25.5.1-0-MacOSX-x86_64.sh -o ~/miniconda3/miniconda.sh
-bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-rm ~/miniconda3/miniconda.sh
-````
-
-Full Miniconda [installation guide](https://www.anaconda.com/docs/getting-started/miniconda/install)
+* Miniconda [installation guide](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) (command line)
+* QIIME2 [Native Install](https://docs.qiime2.org/2024.10/install/native/)
 
 #### R packages
 
-phyloseq: not on CRAN, requires BiocManager
+For devtools (to then install qiime2R and phyloseq)
 ````
-if (!requireNamespace("BiocManager", quietly = TRUE))
-  install.packages("BiocManager")
-BiocManager::install("phyloseq")
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
 ````
 
-qiime2R: not on CRAN, install directly from GitHub
+phyloseq
 ````
-if (!requireNamespace("devtools", quietly = TRUE))
-  install.packages("devtools")
+devtools::install_github("joey711/phyloseq")
+````
+
+qiime2R
+````
 devtools::install_github("jbisanz/qiime2R")
 ````
