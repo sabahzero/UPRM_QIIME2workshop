@@ -6,7 +6,7 @@
 * [Resources](#resources): Papers, Tutorials, QIIME 2 & R package installations
 
 ## Overview
-This repository operates as a syllabus for the 2026 UPRM [QIIME 2](https://github.com/qiime2) Workshop. We will utilize this toolkit to work with pre-processed 16S & 18S reads from the original raw data through hypothesis testing and visualization.
+This repository operates as a syllabus for the 2026 UPRM [QIIME 2](https://github.com/qiime2) Workshop. We will utilize this toolkit to work with a pre-processed 16S & 18S subset of reads from the original raw data through hypothesis testing and visualization.
 ### Workshop Aims
 
     1. Quality control and denoising
@@ -15,17 +15,17 @@ This repository operates as a syllabus for the 2026 UPRM [QIIME 2](https://githu
 
     3. Alpha and beta diversity analysis
 
-    4. Statistical testing and figure generation
+    4. Downstream: Statistical testing and figure generation
 
 ### Case study application: This workshop will explore and analyze data from the microbial communities of *C. californicus*, specifically
 
-    Venom gland tissue differences (distal, proximal, bulb): Control vs experiment
-
-    Host population/location differences
-
-    Taxa with potential protective or symbiotic functions
+    42 samples: Venom gland tissue differences (distal, proximal, bulb): Control vs experiment
 
     Strengths and limitations of the data in its experimental design
+    
+    Downstream: Host population/location differences
+
+    Downstream: Taxa with potential protective or symbiotic functions
 
 ### Instructors
 Analysis Expert: Sierra Smith (Virtual) [@sierra-smith](https://github.com/sierra-smith) <br/>
@@ -35,8 +35,9 @@ Professor: Tim Colston (In-Person) [@tcolston](https://github.com/tcolston) <br/
 ### Key Dates
 - By Mar 4, complete prerequisites below: (a) Installation of software, (b) GitHub account, (c) data downloaded, (d) recommended literature read
 - Mar 9, Session 1 and completion of Aims 1-2: 12-3 PM AST
-- Mar 11, Session 2 and completion of Aims 3-4: 1-3 PM AST
+- Mar 11, Session 2 and completion of Aim 3: 1-3 PM AST
 - Mar 9 & 11, Supporting Office Hours: 3-6 PM AST
+To ensure student understanding of the above aims, Aim 4 will be completed downstream in the course 
 
 ### Prerequisites
 (a) Participants must install the following on their local devices prior to the workshop. It is recommended this is done no later than a week prior in case any troubleshooting may be needed with set-up:
@@ -87,25 +88,26 @@ March 9, 12-3 PM AST
     Hands-on 1 (2 hrs): Q&A, final troubleshooting items, QIIME2, DADA2
         Built-in break: DADA2 run, Downloading SILVA database
         
-    Lecture 2 (20 min): Taxonomy, Alignment, and Phylogeny
+    Lecture 2a (20 min): Taxonomy, Alignment, and Phylogeny
 
     3-6 PM Office Hours: This is an optional period to continue working through analyses
-        Expectations upon arrival to Session 2 are that 
-            (a) core diversity metrics have been generated and
-            (b) Emperor plots are viewable
+        Expectations upon arrival to Session 2 are that core diversity metrics have been generated
 
 ### Session 2: From Community Table to Biological Insight
 March 11, 1-3 PM AST
 
-    Hands-on 3 (30 min): Q&A, troubleshooting, importing QIIME2 artifacts into R using qiime2R
+    Lecture 2b (10 min): Walk-through of visualizations in QIIME2
+    
+    Hands-on 3 (30 min): Q&A, troubleshooting, viewing Emperor plots
 
     Lecture/Demo 3 (30 min): Intro to downstream analyses in R (Sabah)
+        Importing QIIME2 artifacts into R using qiime2R
         Alpha/Beta diversity stats and PCoA plotting (ggplot2)
 
-    Hands-on 4 (1 hr): Creating PCoA and relative abundance plots
+    Hands-on (1 hr): Creating PCoA and relative abundance plots
 
     3-6 PM Office Hours: This is an optional period to continue working through analyses
-        Expectations are that Aims 1-4 are completed by end of the course, with room to dive deeper
+        Expectations are that Aims 1-3 are completed by end of the course, room to dive deeper and Aim 4 downstream
 
 ## Resources
 
