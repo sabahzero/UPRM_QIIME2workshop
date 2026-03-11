@@ -19,7 +19,7 @@ library(RColorBrewer)
 #Import qiime2 data and metadata
 #Change file paths to location and names of your files
 
-total_SVs <- read_qza("~/Desktop/rarefied_table.qza")
+total_SVs <- read_qza("/Users/sulhasan/Desktop/UPRM_QIIME2workshop/data/R_input/rarefied_table.qza")
 
 total_RPCA <- read_qza("~/Desktop/unweighted_unifrac_pcoa_results.qza")
 

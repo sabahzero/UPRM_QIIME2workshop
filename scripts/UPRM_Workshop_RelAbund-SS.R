@@ -1,6 +1,6 @@
 library(ggplot2)
 
-df <- read.csv("~/Desktop/rarefied_42samp_rel_freq_table.csv", header = TRUE)
+df <- read.csv("/Users/sulhasan/Desktop/UPRM_QIIME2workshop/R_input/rarefied_42samp_rel_freq_table.csv", header = TRUE)
 
 #Saccharomycetes relative abundance across sample type
 #Change "fill" to variable of interest
