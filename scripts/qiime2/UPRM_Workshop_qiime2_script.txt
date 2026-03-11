@@ -43,8 +43,10 @@ qiime phylogeny align-to-tree-mafft-fasttree \
 
 qiime feature-table summarize \
 --i-table reduced_42samp_tagplate1_asv-table.qza \
---m-sample-metadata-file 2026_02_26_ConeSnail_Workshop_Reduced_Metadata.txt \
---o-visualization reduced_42samp_tagplate1_asv-table.qzv
+--m-metadata-file 2026_02_26_ConeSnail_Workshop_Reduced_Metadata.txt \
+--o-feature-frequencies feature-frequencies.qza \
+--o-sample-frequencies sample-frequencies.qza \
+--o-summary reduced_42samp_tagplate1_asv-table.qzv
 
 ##Look at ASV table qzv file to decide on a rarefaction depth
 
