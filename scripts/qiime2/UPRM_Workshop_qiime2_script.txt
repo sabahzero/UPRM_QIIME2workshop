@@ -113,7 +113,7 @@ qiime taxa barplot \
 qiime taxa collapse \
 --i-table diversity-core-metrics-phylogenetic/rarefied_table.qza \
 --i-taxonomy reduced_42samp_tagplate1_taxonomy.qza \
---p-level 3 \ ##level of taxonomic classification for microbial taxa, e.g., 3 -> class level
+--p-level 3 \
 --o-collapsed-table rarefied_42samp_level3_tax.qza
 
 ##Calculate relative frequency of the different microbial taxa
@@ -153,6 +153,7 @@ qiime feature-table filter-seqs \
 --o-filtered-data reduced_42samp_tagplate1_asv-seqs.qza
 
 ##Assign taxonomy to sequences using SILVA 138.2 reference database
+##Download Silva database here: https://www.arb-silva.de/fileadmin/silva_databases/current/QIIME2/2025.7/SSU/V4-515f-806r/uniform/SILVA138.2_SSURef_NR99_uniform_classifier_V4-515f-806r.qza
 
 qiime feature-classifier classify-sklearn \
 --i-classifier SILVA138.2_SSURef_NR99_uniform_classifier_V4-515f-806r.qza \
