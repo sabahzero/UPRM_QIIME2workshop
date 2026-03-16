@@ -1,0 +1,551 @@
+# For ideas
+## https://github.com/sabahzero/Ccalifornicus_Venom-Microbiome/blob/master/Supplemental-Results.Rmd
+## https://microbiome.github.io/tutorials/
+## https://pmc.ncbi.nlm.nih.gov/articles/PMC10599642/
+
+
+#### PACKAGES AND DATA INVESTIGATION #### 
+
+# Load required libraries
+## Function to check, install, and load packages with version tracking
+load_packages <- function(packages) {
+  # Create data frame to store package versions
+  package_versions <- data.frame(
+    Package = character(),
+    Version = character(),
+    Status = character(),
+    stringsAsFactors = FALSE
+  )
+  for(pkg in packages) {
+    # Check if package is installed
+    if(!require(pkg, character.only = TRUE)) {
+      cat(paste("Installing package:", pkg, "\n"))
+      install.packages(pkg, dependencies = TRUE)
+      library(pkg, character.only = TRUE)
+      status <- "Installed"
+    } else {
+      status <- "Already loaded"
+    }
+    # Get package version
+    version <- as.character(packageVersion(pkg))
+    # Add to data frame
+    package_versions <- rbind(package_versions, 
+                              data.frame(Package = pkg, 
+                                         Version = version, 
+                                         Status = status,
+                                         stringsAsFactors = FALSE))
+  }
+  return(package_versions)
+}
+## Define required packages, update package versions accordingly as relevant
+required_packages <- c(
+  "ggplot2",      # v4.0.2: For elegant data visualizations
+  "tidyverse",    # v2.0.0: Collection of data science packages
+  "reshape2",     # v1.4.5: For reshaping data between wide and long formats
+  "gridExtra",    # v2.3: For arranging multiple grid-based plots
+  "cowplot",      # v1.2.0: For combining plots into figures
+  "vegan",        # v2.7.3: For community ecology analysis (PERMANOVA, diversity)
+  "pheatmap",     # v1.0.13: For creating heatmaps
+  "RColorBrewer", # v1.1.3: For color palettes
+  "ggpubr",       # v0.6.2: For publication-ready plots with statistics
+  "ggrepel",      # v0.9.6: For repelling text labels in ggplot2
+  "multcomp",     # v1.4.29: For multiple comparisons
+  "multcompView", # v0.1.11: For visualizing multiple comparisons
+  "agricolae"     # v1.3.7: For research statistics (includes HSD.test)
+)
+## Load packages and record versions
+cat("Loading required packages...\n\n")
+package_info <- load_packages(required_packages)
+## Display package versions
+cat("\n========================================\n")
+cat("PACKAGE VERSIONS LOADED\n")
+cat("========================================\n")
+print(package_info)
+
+
+# Load data, ensure path match
+df <- read.csv("/Users/sulhasan/Downloads/UPRM_QIIME2workshop/data/R_input/rarefied_42samp_rel_freq_table.csv", header = TRUE)
+## Important: Ensure all taxa columns are numeric
+### The first two columns (SampleID, Sample_Type) should be factors/characters
+### All remaining columns (taxa) should be numeric
+df <- df %>%
+  mutate(across(where(is.character), as.factor)) %>%  # Convert character columns to factors
+  mutate(across(3:ncol(.), as.numeric))  # Force columns 3 onward to be numeric
+## Display basic info
+cat("\nDataset dimensions:", dim(df)[1], "samples x", dim(df)[2], "variables\n")
+cat("\nSample types present:\n")
+print(table(df$Sample_Type))
+
+## 1. Which sample(s) in your data are the negative controls?
+## 2. What threshold should be used to identify control-derived contamination?
+## 3. How would you make a control set (null) of data to compare against your test (42 samples)?
+### We already have negative sample controls, what about synthetic negative and positive controls?
+
+
+# Control-based filtering
+## NOTE YOU WILL WANT TO APPLY THIS SECTION TO A TAXONONOMY TABLE RESOLUTION YOU AGREE WITH (All Genera, All Family, etc)
+### There is also a column in this filtering process you will want to KEEP. Identify which that may be
+control_types <- c("Control_1")  # Add other control types if present
+test_types <- setdiff(unique(df$Sample_Type), control_types)
+
+cat("\nControl types:", paste(control_types, collapse=", "))
+cat("\nTest types:", paste(test_types, collapse=", "))
+cat("\nNumber of control samples:", sum(df$Sample_Type %in% control_types))
+cat("\nNumber of test samples:", sum(df$Sample_Type %in% test_types), "\n")
+
+## Define taxa names (all columns after SampleID and Sample_Type)
+taxa_names <- colnames(df)[3:ncol(df)]
+
+## Check if controls exist in the data
+if(sum(df$Sample_Type %in% control_types) == 0) {
+  cat("\nWARNING: No control samples found with type 'Control_1'\n")
+  cat("Available sample types:\n")
+  print(unique(df$Sample_Type))
+  cat("\nPlease adjust control_types to match your actual control sample types.\n")
+} else {
+  ## Calculate mean abundance in controls for each taxon
+  control_means <- df %>%
+    filter(Sample_Type %in% control_types) %>%
+    summarise(across(all_of(taxa_names), mean, na.rm = TRUE)) %>%
+    pivot_longer(everything(), names_to = "Taxon", values_to = "Control_Mean")
+  ## Calculate mean abundance in tests for each taxon
+  test_means <- df %>%
+    filter(Sample_Type %in% test_types) %>%
+    summarise(across(all_of(taxa_names), mean, na.rm = TRUE)) %>%
+    pivot_longer(everything(), names_to = "Taxon", values_to = "Test_Mean")
+  ## Combine
+  control_comparison <- left_join(control_means, test_means, by = "Taxon") %>%
+    mutate(
+      Test_Control_Ratio = Test_Mean / Control_Mean,
+      Log2_FC = log2(Test_Mean + 1e-10) - log2(Control_Mean + 1e-10)
+    )
+  # Show summary statistics
+  cat("\n=== CONTROL VS TEST COMPARISON SUMMARY ===\n")
+  cat("\nTaxa with higher abundance in controls (potential contaminants):\n")
+  contaminants <- control_comparison %>% 
+    filter(Control_Mean > Test_Mean) %>%
+    arrange(desc(Control_Mean))
+  # Filter out zero controls to avoid division issues
+  control_comparison_filtered <- control_comparison %>%
+    filter(Control_Mean > 0)
+  # Identify taxa that might be contaminants
+  # You can adjust these thresholds based on your data
+  cat("\n=== POTENTIAL CONTAMINANTS (Control Mean > 1% and Test/Control Ratio < 2) ===\n")
+  potential_contaminants <- control_comparison %>%
+    filter(Control_Mean > 0.01 &  # Present in controls above 1%
+             Test_Control_Ratio < 2 &  # Not much higher in tests
+             !is.infinite(Test_Control_Ratio))  # Remove infinite values
+  if(nrow(potential_contaminants) > 0) {
+    print(potential_contaminants[, c("Taxon", "Control_Mean", "Test_Mean", "Test_Control_Ratio")] %>%
+            arrange(desc(Control_Mean)))
+  } else {
+    cat("No taxa meet the contaminant criteria with current thresholds.\n")
+    cat("Try adjusting thresholds or check if controls have very low abundances.\n")
+  }
+  # Create visualizations
+  if(nrow(control_comparison) > 0) {
+    # Plot 1: Top taxa in controls
+    top_control_taxa <- control_comparison %>%
+      arrange(desc(Control_Mean)) %>%
+      head(20)
+    control_plot <- ggplot(top_control_taxa, aes(x = reorder(Taxon, Control_Mean), y = Control_Mean)) +
+      geom_bar(stat = "identity", fill = "steelblue") +
+      coord_flip() +
+      labs(title = "Top 20 Taxa in Control Samples",
+           x = "Taxon",
+           y = "Mean Relative Abundance in Controls") +
+      theme_minimal() +
+      theme(axis.text.y = element_text(size = 8))
+    # Ensure path match
+    ggsave("/Users/sulhasan/Downloads/UPRM_QIIME2workshop/results/control_taxa_top20.png", control_plot, width = 10, height = 8, dpi = 300)
+    # Plot 2: Scatter plot of Control vs Test means
+    # Add small pseudocount to avoid log(0) issues
+    control_comparison_plot <- control_comparison %>%
+      mutate(
+        Control_Mean_Log = log10(Control_Mean + 1e-6),
+        Test_Mean_Log = log10(Test_Mean + 1e-6)
+      )
+    scatter_plot <- ggplot(control_comparison_plot, aes(x = Control_Mean + 1e-6, y = Test_Mean + 1e-6)) +
+      geom_point(alpha = 0.5) +
+      geom_abline(slope = 1, intercept = 0, color = "red", linetype = "dashed") +
+      scale_x_log10() +
+      scale_y_log10() +
+      labs(title = "Control vs Test Sample Means",
+           x = "Mean Abundance in Controls (log10)",
+           y = "Mean Abundance in Test Samples (log10)") +
+      theme_minimal() +
+      annotation_logticks()
+    # Ensure path match
+    ggsave("/Users/sulhasan/Downloads/UPRM_QIIME2workshop/results/control_vs_test_scatter.png", scatter_plot, width = 8, height = 8, dpi = 300)
+  }
+}
+## How might you want to 'subtract' out the taxa found in the controls from the other samples?
+
+#### PACKAGES AND DATA INVESTIGATION #### 
+
+
+#### STATISTICAL ANALYSES OF TAXA AND DIVERSITY #### 
+# Analyses of Taxa (ANOVA, Tukey's)
+## When doing this analyses, evaluate what happens when 16S and 18S are separated vs evaluated together
+## Function to analyze a single taxon
+analyze_taxon <- function(df, taxon, control_type = "Control_1") {
+  # Create formula
+  formula <- as.formula(paste(taxon, "~ Sample_Type"))
+  # Check if taxon has sufficient variation
+  if(var(df[[taxon]], na.rm = TRUE) == 0) {
+    return(NULL)  # Skip taxa with no variation
+  }
+  # ANOVA
+  aov_result <- aov(formula, data = df)
+  anova_sum <- summary(aov_result)
+  p_value <- anova_sum[[1]][["Pr(>F)"]][1]
+  # Only proceed if significant
+  if(p_value < 0.05) {
+    # Tukey HSD
+    tukey <- TukeyHSD(aov_result)
+    # Extract comparisons with control
+    tukey_df <- as.data.frame(tukey$Sample_Type)
+    # Find comparisons involving control
+    control_comparisons <- grep(paste0("^", control_type, "-|", "-", control_type, "$"), 
+                                rownames(tukey_df), value = TRUE)
+    # Calculate effect sizes (eta squared)
+    ss_effect <- anova_sum[[1]][["Sum Sq"]][1]
+    ss_total <- sum(anova_sum[[1]][["Sum Sq"]])
+    eta_squared <- ss_effect / ss_total
+    # Calculate means by group
+    group_means <- df %>%
+      group_by(Sample_Type) %>%
+      summarise(mean_abund = mean(.data[[taxon]], na.rm = TRUE),
+                sd_abund = sd(.data[[taxon]], na.rm = TRUE),
+                n = n()) %>%
+      ungroup()
+    # Fold change relative to control
+    control_mean <- group_means$mean_abund[group_means$Sample_Type == control_type]
+    if(length(control_mean) > 0 && control_mean > 0) {
+      group_means$fold_change <- group_means$mean_abund / control_mean
+    } else {
+      group_means$fold_change <- NA
+    }
+    # Return results
+    return(list(
+      taxon = taxon,
+      anova_p = p_value,
+      anova_f = anova_sum[[1]][["F value"]][1],
+      eta_squared = eta_squared,
+      tukey = tukey_df,
+      control_comparisons = control_comparisons,
+      group_means = group_means,
+      significant = p_value < 0.05
+    ))
+  } else {
+    return(list(
+      taxon = taxon,
+      anova_p = p_value,
+      anova_f = anova_sum[[1]][["F value"]][1],
+      eta_squared = NA,
+      significant = FALSE
+    ))
+  }
+}
+## Analyze ALL taxa (this will take a few minutes)
+cat("\nAnalyzing all taxa...\n")
+all_results <- list()
+for(i in 1:length(taxa_names)) {
+  taxon <- taxa_names[i]
+  if(i %% 20 == 0) cat("Processing taxon", i, "of", length(taxa_names), "\n")
+  
+  result <- analyze_taxon(df, taxon, control_type = "Control_1")
+  if(!is.null(result)) {
+    all_results[[taxon]] <- result
+  }
+}
+## Summarize Results
+### Create summary dataframe
+summary_df <- data.frame(
+  Taxon = character(),
+  ANOVA_P = numeric(),
+  ANOVA_F = numeric(),
+  Eta_Squared = numeric(),
+  Significant = logical(),
+  stringsAsFactors = FALSE
+)
+for(taxon in names(all_results)) {
+  res <- all_results[[taxon]]
+  summary_df <- rbind(summary_df, data.frame(
+    Taxon = taxon,
+    ANOVA_P = res$anova_p,
+    ANOVA_F = res$anova_f,
+    Eta_Squared = ifelse(is.null(res$eta_squared), NA, res$eta_squared),
+    Significant = res$significant
+  ))
+}
+### Adjust p-values for multiple comparisons
+summary_df$ANOVA_P_adj <- p.adjust(summary_df$ANOVA_P, method = "fdr")
+summary_df$Significant_adj <- summary_df$ANOVA_P_adj < 0.05
+### Sort by significance
+summary_df <- summary_df[order(summary_df$ANOVA_P), ]
+### View top significant taxa (20)
+cat("\n\n=== TOP 20 SIGNIFICANT TAXA ===\n")
+print(head(summary_df, 20))
+## Save results
+write.csv(summary_df, "/Users/sulhasan/Downloads/UPRM_QIIME2workshop/results/taxa_anova_results.csv", row.names = FALSE)
+cat("\nResults saved to taxa_anova_results.csv\n")
+
+
+# Diversity Analyses (Alpha and Beta) 
+## Alpha (Shannon & Simpson)
+## Calculate diversity indices for each sample
+df_diversity <- df %>%
+  rowwise() %>%
+  mutate(
+    # Shannon diversity
+    Shannon = -sum(c_across(all_of(taxa_names)) * log(c_across(all_of(taxa_names)) + 1e-10), na.rm = TRUE),
+    # Simpson diversity
+    Simpson = 1 - sum(c_across(all_of(taxa_names))^2, na.rm = TRUE),
+    # Richness (number of taxa with abundance > 0)
+    Richness = sum(c_across(all_of(taxa_names)) > 0, na.rm = TRUE),
+    # Evenness (Shannon / log(Richness))
+    Evenness = Shannon / log(Richness)
+  ) %>%
+  ungroup()
+## Test diversity differences
+diversity_tests <- list()
+for(div_index in c("Shannon", "Simpson", "Richness", "Evenness")) {
+  formula <- as.formula(paste(div_index, "~ Sample_Type"))
+  aov_result <- aov(formula, data = df_diversity)
+  diversity_tests[[div_index]] <- list(
+    anova = summary(aov_result),
+    tukey = TukeyHSD(aov_result)
+  )
+}
+## Plot diversity - FIXED select() issue
+### Option 1: Use dplyr::select explicitly
+diversity_long <- df_diversity %>%
+  dplyr::select(SampleID, Sample_Type, Shannon, Simpson, Richness, Evenness) %>%
+  pivot_longer(cols = c(Shannon, Simpson, Richness, Evenness),
+               names_to = "Index", values_to = "Value")
+### Option 2: Alternative using bracket notation (commented out)
+## diversity_long <- df_diversity[, c("SampleID", "Sample_Type", "Shannon", "Simpson", "Richness", "Evenness")] %>%
+##   pivot_longer(cols = c(Shannon, Simpson, Richness, Evenness),
+##                names_to = "Index", values_to = "Value")
+diversity_plot <- ggplot(diversity_long, aes(x = Sample_Type, y = Value, fill = Sample_Type)) +
+  geom_boxplot(alpha = 0.7) +
+  geom_jitter(size = 1.5, alpha = 0.7, shape = 21, color = "black", width = 0.2) +
+  facet_wrap(~Index, scales = "free_y", ncol = 2) +
+  scale_fill_brewer(palette = "Set3") +
+  labs(title = "Alpha Diversity by Sample Type",
+       x = "Sample Type",
+       y = "Diversity Value") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none",
+        strip.background = element_rect(fill = "lightgray"))
+ggsave("/Users/sulhasan/Downloads/UPRM_QIIME2workshop/results/alpha_diversity.png", diversity_plot, width = 10, height = 8, dpi = 300)
+## Beta (Bray-Curtis and PCoA)
+## Create community matrix
+community_matrix <- as.matrix(df[, taxa_names])
+rownames(community_matrix) <- df$SampleID
+## Check for and handle any issues in community matrix
+community_matrix[is.na(community_matrix)] <- 0
+community_matrix[is.nan(community_matrix)] <- 0
+community_matrix[is.infinite(community_matrix)] <- 0
+## Calculate Bray-Curtis dissimilarity
+bray_dist <- vegdist(community_matrix, method = "bray")
+## PCoA (principal component analysis)
+pcoa <- cmdscale(bray_dist, k = 2, eig = TRUE)
+pcoa_df <- data.frame(
+  SampleID = rownames(pcoa$points),
+  PCoA1 = pcoa$points[,1],
+  PCoA2 = pcoa$points[,2]
+)
+## Add metadata
+pcoa_df <- merge(pcoa_df, df[, c("SampleID", "Sample_Type")], by = "SampleID")
+## Calculate variance explained
+var_explained <- round(100 * pcoa$eig[1:2] / sum(pcoa$eig), 1)
+## PERMANOVA
+permanova <- adonis2(bray_dist ~ Sample_Type, data = df, permutations = 999)
+## PCoA plot
+pcoa_plot <- ggplot(pcoa_df, aes(x = PCoA1, y = PCoA2, color = Sample_Type)) +
+  geom_point(size = 3, alpha = 0.8) +
+  stat_ellipse(level = 0.95, size = 0.5) +
+  labs(title = "PCoA - Bray-Curtis Dissimilarity",
+       subtitle = paste("PERMANOVA p =", format(permanova$`Pr(>F)`[1], digits = 4)),
+       x = paste0("PCoA1 (", var_explained[1], "%)"),
+       y = paste0("PCoA2 (", var_explained[2], "%)")) +
+  scale_color_brewer(palette = "Set2") +
+  theme_classic() +
+  theme(legend.position = "right")
+ggsave("/Users/sulhasan/Downloads/UPRM_QIIME2workshop/results/beta_diversity_pcoa.png", pcoa_plot, width = 8, height = 6, dpi = 300)
+cat("Beta diversity PCoA plot saved\n")
+#### STATISTICAL ANALYSES OF TAXA AND DIVERSITY #### 
+
+
+#### VISUALS OF SIGNIFICANT TAXA #### 
+# Heatmap of Significant Taxa 
+## NOTE: IF THE RESULTS OF THIS HEATMAP LOOK WEIRD TO YOU, WHY COULD THAT BE? WHAT NEEDS TO CHANGE?
+## Prepare data for heatmap
+significant_taxa <- summary_df$Taxon[summary_df$Significant_adj][1:min(30, sum(summary_df$Significant_adj))]
+if(length(significant_taxa) > 0) {
+  cat("Preparing heatmap with", length(significant_taxa), "significant taxa...\n")
+  # Create matrix
+  heatmap_data <- df[, c("SampleID", "Sample_Type", significant_taxa)]
+  # Check for and remove any taxa with zero variance or all zeros
+  taxa_to_keep <- c()
+  for(taxon in significant_taxa) {
+    taxon_values <- heatmap_data[[taxon]]
+    if(var(taxon_values, na.rm = TRUE) > 0 && sum(taxon_values > 0, na.rm = TRUE) > 1) {
+      taxa_to_keep <- c(taxa_to_keep, taxon)
+    }
+  }
+  if(length(taxa_to_keep) < 2) {
+    cat("Insufficient taxa with variation for heatmap clustering\n")
+  } else {
+    cat("Keeping", length(taxa_to_keep), "taxa with sufficient variation\n")
+    # Subset to taxa with variation
+    heatmap_data <- heatmap_data[, c("SampleID", "Sample_Type", taxa_to_keep)]
+    # Create matrix
+    heatmap_matrix <- as.matrix(heatmap_data[, 3:ncol(heatmap_data)])
+    # Replace any remaining NA/NaN/Inf with 0
+    heatmap_matrix[is.na(heatmap_matrix)] <- 0
+    heatmap_matrix[is.nan(heatmap_matrix)] <- 0
+    heatmap_matrix[is.infinite(heatmap_matrix)] <- 0
+    # Check if matrix has any variation
+    if(sd(heatmap_matrix, na.rm = TRUE) == 0) {
+      cat("Matrix has no variation after cleaning - skipping heatmap\n")
+    } else {
+      # Scale for heatmap (z-score) - handle potential errors
+      tryCatch({
+        # Scale by samples (rows)
+        heatmap_matrix_scaled <- t(scale(t(heatmap_matrix)))
+        # Handle any remaining NaN from scaling (when sd = 0)
+        heatmap_matrix_scaled[is.nan(heatmap_matrix_scaled)] <- 0
+        # Row names as sample IDs
+        rownames(heatmap_matrix_scaled) <- heatmap_data$SampleID
+        # Column names as taxa
+        colnames(heatmap_matrix_scaled) <- taxa_to_keep
+        # Annotation for samples
+        annotation_col <- data.frame(
+          Sample_Type = heatmap_data$Sample_Type
+        )
+        rownames(annotation_col) <- heatmap_data$SampleID
+        # Define colors
+        n_colors <- length(unique(heatmap_data$Sample_Type))
+        if(n_colors >= 3) {
+          ann_colors <- list(
+            Sample_Type = setNames(brewer.pal(n_colors, "Set3"),
+                                   unique(heatmap_data$Sample_Type))
+          )
+        } else {
+          ann_colors <- list(
+            Sample_Type = setNames(c("#8DD3C7", "#FFFFB3"),  # Set3 first two colors
+                                   unique(heatmap_data$Sample_Type))
+          )
+        }
+        # Try different clustering methods if one fails
+        clustering_possible <- TRUE
+        tryCatch({
+          pheatmap(heatmap_matrix_scaled,
+                   annotation_row = annotation_col,
+                   annotation_colors = ann_colors,
+                   clustering_distance_rows = "euclidean",
+                   clustering_distance_cols = "euclidean",
+                   clustering_method = "ward.D2",
+                   color = colorRampPalette(rev(brewer.pal(11, "RdBu")))(100),
+                   main = paste("Significant Taxa - Sample Clustering (n =", length(taxa_to_keep), ")"),
+                   fontsize_row = 6,
+                   fontsize_col = 8)
+        }, error = function(e) {
+          cat("Ward clustering failed, trying average method...\n")
+          tryCatch({
+            pheatmap(heatmap_matrix_scaled,
+                     annotation_row = annotation_col,
+                     annotation_colors = ann_colors,
+                     clustering_distance_rows = "euclidean",
+                     clustering_distance_cols = "euclidean",
+                     clustering_method = "average",
+                     color = colorRampPalette(rev(brewer.pal(11, "RdBu")))(100),
+                     main = paste("Significant Taxa - Sample Clustering (n =", length(taxa_to_keep), ")"),
+                     fontsize_row = 6,
+                     fontsize_col = 8)
+          }, error = function(e2) {
+            cat("Average clustering failed, creating heatmap without clustering...\n")
+            pheatmap(heatmap_matrix_scaled,
+                     annotation_row = annotation_col,
+                     annotation_colors = ann_colors,
+                     cluster_rows = FALSE,
+                     cluster_cols = FALSE,
+                     color = colorRampPalette(rev(brewer.pal(11, "RdBu")))(100),
+                     main = paste("Significant Taxa - No Clustering (n =", length(taxa_to_keep), ")"),
+                     fontsize_row = 6,
+                     fontsize_col = 8)
+          })
+        })
+        dev.off()
+        cat("Heatmap saved successfully\n")
+        # Save as PNG for quick viewing
+        png("/Users/sulhasan/Downloads/UPRM_QIIME2workshop/results/significant_taxa_heatmap.png", width = 14, height = 10, units = "in", res = 300)
+        tryCatch({
+          pheatmap(heatmap_matrix_scaled,
+                   annotation_row = annotation_col,
+                   annotation_colors = ann_colors,
+                   clustering_distance_rows = "euclidean",
+                   clustering_distance_cols = "euclidean",
+                   clustering_method = "ward.D2",
+                   color = colorRampPalette(rev(brewer.pal(11, "RdBu")))(100),
+                   main = paste("Significant Taxa - Sample Clustering (n =", length(taxa_to_keep), ")"),
+                   fontsize_row = 6,
+                   fontsize_col = 8)
+        }, error = function(e) {
+          pheatmap(heatmap_matrix_scaled,
+                   annotation_row = annotation_col,
+                   annotation_colors = ann_colors,
+                   cluster_rows = FALSE,
+                   cluster_cols = FALSE,
+                   color = colorRampPalette(rev(brewer.pal(11, "RdBu")))(100),
+                   main = paste("Significant Taxa - No Clustering (n =", length(taxa_to_keep), ")"),
+                   fontsize_row = 6,
+                   fontsize_col = 8)
+        })
+        dev.off()
+      }, error = function(e) {
+        cat("Error in heatmap preparation:", e$message, "\n")
+        cat("Skipping heatmap generation\n")
+      })
+    }
+  }
+} else {
+  cat("No significant taxa found for heatmap\n")
+}
+
+
+# Volcano plot to investigate Effect Size vs Significance
+## Prepare data for volcano plot
+if(nrow(summary_df) > 0) {
+  volcano_data <- summary_df %>%
+    filter(!is.na(Eta_Squared)) %>%
+    mutate(
+      neg_log_p = -log10(ANOVA_P_adj),
+      label = ifelse(Significant_adj, Taxon, NA)
+    )
+  if(nrow(volcano_data) > 0) {
+    # Create volcano plot
+    volcano_plot <- ggplot(volcano_data, aes(x = Eta_Squared, y = neg_log_p)) +
+      geom_point(aes(color = Significant_adj), alpha = 0.7, size = 2) +
+      geom_text_repel(data = subset(volcano_data, Significant_adj & neg_log_p > 2),
+                      aes(label = label), size = 2, max.overlaps = 10, 
+                      box.padding = 0.5, segment.color = "grey50") +
+      scale_color_manual(values = c("gray60", "red")) +
+      geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "blue") +
+      labs(x = "Effect Size (Eta Squared)",
+           y = "-log10(Adjusted P-value)",
+           title = "Volcano Plot: Effect Size vs Significance",
+           color = "Significant") +
+      theme_classic() +
+      theme(legend.position = "bottom")
+    ggsave("/Users/sulhasan/Downloads/UPRM_QIIME2workshop/results/volcano_plot.png", volcano_plot, width = 10, height = 8, dpi = 300)
+    cat("Volcano plot saved\n")
+  } else {
+    cat("No data available for volcano plot\n")
+  }
+}
+#### VISUALS OF SIGNIFICANT TAXA #### 
