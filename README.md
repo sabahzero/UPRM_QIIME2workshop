@@ -136,7 +136,7 @@ March 11, 1-3 PM AST
 ```
 rsync -avzP [username]@[server_address]:/path/to/workshop/data /local/destination/path
 
-# Example with anonymized placeholders:
+# Example with anonymized placeholders
 # rsync -avzP student@workshop-server.edu:/mnt/data/microworkshop/yourdirectory ~/Desktop/workshop_data
 ```
 ##### Using sftp (alternative method)
@@ -144,13 +144,13 @@ rsync -avzP [username]@[server_address]:/path/to/workshop/data /local/destinatio
 sftp [username]@[server_address]
 # Enter password when prompted
 
-# Once connected, navigate and download:
+# Once connected, navigate and download
 get -r /path/to/workshop/data /local/destination/path
 
 # Exit when complete
 bye
 
-# Example with anonymized placeholders:
+# Example with anonymized placeholders
 # sftp student@workshop-server.edu
 # get -r /mnt/data/microworkshop/yourdirectory ~/Desktop/workshop_data
 ```
