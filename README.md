@@ -66,7 +66,12 @@ The following small test dataset can be utilized for practice: [Gut-to-Soil Tuto
 
 (b) Create a [Github account](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github)
 
-(c) Utilize your newly created Github account and installed software to download the data from this repository. This instruction is intentionally ambiguous as a first task in navigating your newly attained skillset 🎉 Hint: Look for the green "Code" button at the top of this repo
+(c) Download the workshop data
+**Option 1: Direct download from this repository**
+Click the green "Code" button at the top of this repo and select "Download ZIP"
+
+**Option 2: Command-line transfer**
+See 'Installations' below
 
 (d) Complete literature readings [referenced here](#foundational-papers) (with [identical folder here](https://github.com/sabahzero/UPRM_QIIME2workshop/tree/main/papers) for easy download), minimally reading Ch III but ideally all 3 papers
 
@@ -125,6 +130,30 @@ March 11, 1-3 PM AST
 * Classification and Regression Tree Analysis ([CART](https://cran.r-project.org/web/packages/party/index.html#:~:text=CRAN:%20Package%20party,2105%2D8%2))
 
 ### Installations
+
+#### Command-line Transfer
+##### Using rsync (preferred method)
+```
+rsync -avzP [username]@[server_address]:/path/to/workshop/data /local/destination/path
+
+# Example with anonymized placeholders:
+# rsync -avzP student@workshop-server.edu:/mnt/data/microworkshop/yourdirectory ~/Desktop/workshop_data
+```
+##### Using sftp (alternative method)
+```
+sftp [username]@[server_address]
+# Enter password when prompted
+
+# Once connected, navigate and download:
+get -r /path/to/workshop/data /local/destination/path
+
+# Exit when complete
+bye
+
+# Example with anonymized placeholders:
+# sftp student@workshop-server.edu
+# get -r /mnt/data/microworkshop/yourdirectory ~/Desktop/workshop_data
+```
 
 #### QIIME 2
 * [Quickstart](https://library.qiime2.org/quickstart/amplicon)
