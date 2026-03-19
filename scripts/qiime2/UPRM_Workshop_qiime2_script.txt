@@ -1,3 +1,31 @@
+##Pre-processing raw Plate2 reads
+##Trim-galore script with fastqc
+
+##Navigate to your directory
+
+cd /mnt/colston/microworkshop/your_directory
+
+##Activate the trim-galore conda environment
+
+conda activate trim-galore
+
+##Run trim galore
+
+trim_galore -q 20 --fastqc -o trimmed_plate2_reads /mnt/colston/microworkshop/data/raw_data/plate2_pre-trimmed_raw_fastq_files/*.fastq.gz
+
+##After script is finished, clean up output
+
+cd trimmed_plate2_reads/
+
+mkdir trimmed_fastqc_results
+
+mv *fastqc* trimmed_fastqc_results/
+
+mv *trimming_report* trimmed_fastqc_results/
+
+##Raw reads ending in *.fq.gz are ready for qiime2
+
+#############################################################
 ##Load qiime2 conda environment
 
 conda activate qiime2-amplicon-2026.1
